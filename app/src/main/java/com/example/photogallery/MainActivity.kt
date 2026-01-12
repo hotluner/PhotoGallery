@@ -10,6 +10,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,6 +27,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -98,6 +100,20 @@ fun PhotoItem(photo: Photo, onClick: (Photo) -> Unit) {
         )
     }
 }
+
+@Composable
+fun FavoriteTitleRow(head1: String, head2: String) {
+    Row(
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.primary)
+            .fillMaxWidth()
+            .padding(5.dp)
+    ) {
+        Text(head1, color = Color.White, modifier = Modifier.weight(0.3f))
+        Text(head2, color = Color.White, modifier = Modifier.weight(0.7f))
+    }
+}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
