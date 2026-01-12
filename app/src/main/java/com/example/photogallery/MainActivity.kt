@@ -15,9 +15,11 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
@@ -123,6 +125,24 @@ fun FavoritePhotoRow(title: String, url: String) {
     ) {
         Text(title, modifier = Modifier.weight(0.3f))
         Text(url, modifier = Modifier.weight(0.7f))
+    }
+}
+
+@Composable
+fun FavoritesScreen(viewModel: PhotoViewModel, padding: PaddingValues) {
+    val favorites by viewModel.allFavorites.observeAsState(emptyList())
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(padding)
+    ) {
+        item {
+            FavoriteTitleRow(head1 = "Title", head2 = "URL")
+        }
+        items(favorites) { photo ->
+            FavoritePhotoRow(title = photo.title, url = photo.url)
+        }
     }
 }
 
