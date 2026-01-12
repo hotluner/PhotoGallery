@@ -35,6 +35,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.search
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -66,8 +67,8 @@ fun PhotoGalleryScreen(viewModel: PhotoViewModel, modifier: Modifier) {
     val photos by viewModel.photos.collectAsState()
     Column(modifier= Modifier){
         PhotoGalleryTopBar(
-            onSearch = { query -> println("Searching: $query") },
-            onStartPolling = { println("Searching:onStartPolling ") },
+            onSearch = { query -> viewModel.search(query) },
+            onStartPolling = { viewModel.reload() },
             onMenuAction1 = { println("Searching:onStartPolling ") },
             onMenuAction2 = { println("Searching:onStartPolling ") }
         )
