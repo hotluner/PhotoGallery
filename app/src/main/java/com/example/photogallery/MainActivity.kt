@@ -4,12 +4,17 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
@@ -26,6 +31,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,15 +44,17 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.photogallery.flickr.Photo
 import com.example.photogallery.ui.theme.PhotoGalleryTheme
+import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
+    private val viewModel by viewModels<PhotoViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             PhotoGalleryTheme {
                 Scaffold(modifier = Modifier.fillMaxSize().background(color = Color.Gray)) { innerPadding ->
-                    PhotoGalleryScreen(modifier = Modifier.padding(innerPadding))
+                    PhotoGalleryScreen(viewModel,modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -54,8 +62,24 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun PhotoGalleryScreen(modifier: Modifier){
-
+fun PhotoGalleryScreen(viewModel: PhotoViewModel, modifier: Modifier) {
+    val photos by viewModel.photos.collectAsState()
+    Column(modifier= Modifier){
+        PhotoGalleryTopBar(
+            onSearch = { query -> println("Searching: $query") },
+            onStartPolling = { println("Searching:onStartPolling ") },
+            onMenuAction1 = { println("Searching:onStartPolling ") },
+            onMenuAction2 = { println("Searching:onStartPolling ") }
+        )
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(120.dp),
+            modifier = Modifier.fillMaxSize()
+        ) {
+            items(photos) { photo ->
+                PhotoItem(photo)
+            }
+        }
+    }
 }
 
 @Composable
