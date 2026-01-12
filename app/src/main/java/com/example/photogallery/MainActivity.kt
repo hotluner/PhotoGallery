@@ -114,6 +114,17 @@ fun FavoriteTitleRow(head1: String, head2: String) {
     }
 }
 
+@Composable
+fun FavoritePhotoRow(title: String, url: String) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(5.dp)
+    ) {
+        Text(title, modifier = Modifier.weight(0.3f))
+        Text(url, modifier = Modifier.weight(0.7f))
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
