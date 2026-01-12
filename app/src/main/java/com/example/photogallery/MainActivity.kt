@@ -60,9 +60,31 @@ class MainActivity : ComponentActivity() {
         setContent {
             PhotoGalleryTheme {
                 Scaffold(modifier = Modifier.fillMaxSize().background(color = Color.Gray)) { innerPadding ->
-                    PhotoGalleryScreen(viewModel,innerPadding)
+                    MainScreen(viewModel, modifier = Modifier.padding(innerPadding))
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun MainScreen(viewModel: PhotoViewModel, modifier: Modifier) {
+    var showFavorites by remember { mutableStateOf(false) }
+
+    Scaffold(
+        topBar = {
+            PhotoGalleryTopBar(
+                onSearch = { query -> viewModel.search(query) },
+                onStartPolling = { showFavorites = false; viewModel.reload() },
+                onMenuAction1 = { showFavorites = true },
+                onMenuAction2 = { viewModel.clearFavorites() }
+            )
+        }
+    ) { padding ->
+        if (showFavorites) {
+            FavoritesScreen(viewModel, padding)
+        } else {
+            PhotoGalleryScreen(viewModel, padding)
         }
     }
 }
@@ -197,14 +219,14 @@ fun PhotoGalleryTopBar(
                     onDismissRequest = { expanded = false }
                 ) {
                     DropdownMenuItem(
-                        text = { Text("Action 1") },
+                        text = { Text("Избранные") },
                         onClick = {
                             onMenuAction1()
                             expanded = false
                         })
                     DropdownMenuItem(
                         text =
-                            { Text("Action 2") },
+                            { Text("Удалить все из избранных") },
                         onClick = {
                             onMenuAction2()
                             expanded = false
