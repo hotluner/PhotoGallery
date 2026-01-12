@@ -7,7 +7,7 @@ interface FlickrApi {
     @GET("services/rest/")
     suspend fun getInterestingPhotos(
         @Query("method") method: String = "flickr.interestingness.getList",
-        @Query("api_key") apiKey: String = "a901bbdbf57451c7e7e940439b4ac03d",
+        @Query("api_key") apiKey: String = "090260e6cead0c1c8c20fb96ba381549",
         @Query("extras") extras: String = "url_s",
         @Query("format") format: String = "json",
         @Query("nojsoncallback") noJsonCallback: Int = 1

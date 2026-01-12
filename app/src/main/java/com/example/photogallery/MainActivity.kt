@@ -37,7 +37,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -45,11 +44,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.photogallery.flickr.Photo
 import com.example.photogallery.ui.theme.PhotoGalleryTheme
+import kotlinx.serialization.Contextual
 import kotlin.getValue
 
 class MainActivity : ComponentActivity() {
@@ -118,10 +119,12 @@ fun PhotoItem(photo: Photo, onClick: (Photo) -> Unit) {
         AsyncImage(
             model = photo.url,
             contentDescription = photo.title,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .aspectRatio(1f)
                 .fillMaxWidth()
         )
+        Text(text = photo.title)
     }
 }
 
@@ -146,7 +149,15 @@ fun FavoritePhotoRow(title: String, url: String) {
             .padding(5.dp)
     ) {
         Text(title, modifier = Modifier.weight(0.3f))
-        Text(url, modifier = Modifier.weight(0.7f))
+        AsyncImage(
+            model = url,
+            contentDescription =title,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .aspectRatio(1f)
+                .weight(0.1f)
+
+        )
     }
 }
 
@@ -160,7 +171,7 @@ fun FavoritesScreen(viewModel: PhotoViewModel, padding: PaddingValues) {
             .padding(padding)
     ) {
         item {
-            FavoriteTitleRow(head1 = "Title", head2 = "URL")
+            FavoriteTitleRow(head1 = "Title", head2 = "IMG")
         }
         items(favorites) { photo ->
             FavoritePhotoRow(title = photo.title, url = photo.url)
