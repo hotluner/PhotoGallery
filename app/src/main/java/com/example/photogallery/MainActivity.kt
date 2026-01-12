@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -82,17 +83,19 @@ fun PhotoGalleryScreen(viewModel: PhotoViewModel, modifier: Modifier) {
 }
 
 @Composable
-fun PhotoItem(photo: Photo) {
+fun PhotoItem(photo: Photo, onClick: (Photo) -> Unit) {
     Card(
         modifier = Modifier
             .padding(4.dp)
             .fillMaxWidth()
+            .clickable { onClick(photo) }
     ) {
         AsyncImage(
             model = photo.url,
             contentDescription = photo.title,
             modifier = Modifier
                 .aspectRatio(1f)
+                .fillMaxWidth()
         )
     }
 }
