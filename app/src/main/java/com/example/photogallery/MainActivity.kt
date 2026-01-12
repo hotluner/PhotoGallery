@@ -121,7 +121,7 @@ fun PhotoGalleryTopBar(
             Text("PhotoGallery", fontSize = 20.sp, color = Color.White)
         }
     }, actions = {
-        if (!isSearching) { // Кнопка поиска
+        if (!isSearching) {
             IconButton(onClick = { isSearching = true }) {
                 Icon(
                     Icons.Default.Search,
